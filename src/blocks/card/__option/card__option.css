@@ -1,0 +1,6 @@
+.card__option {
+  display: flex;
+  margin: 22px 15px 20px 21px;
+  justify-content: space-between;
+  align-items: center;
+}

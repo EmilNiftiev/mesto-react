@@ -1,0 +1,28 @@
+.profile__info {
+  display: grid;
+  grid-template-rows: repeat(2, minmax(min-content, max-content));
+  gap: 7px 20px;
+  align-content: center;
+  padding-left: 30px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 930px) {
+  .profile__info {
+    max-width: 420px;
+  }
+}
+
+@media (max-width: 768px) {
+  .profile__info {
+    max-width: 350px;
+  }
+}
+
+@media (max-width: 614px) {
+  .profile__info {
+    max-width: 241.25px;
+    gap: 7px 10px;
+    padding: 26px 0 32px 25px;
+  }
+}

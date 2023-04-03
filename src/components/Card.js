@@ -4,7 +4,7 @@ function Card(props) {
   const { card, onCardClick } = props;
 
   function handleCardClick() {
-    props.onCardClick(props.card);
+    onCardClick(props.card);
   }
 
   return (

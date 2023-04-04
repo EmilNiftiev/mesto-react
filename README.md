@@ -34,7 +34,7 @@
 
 ##### Ссылки:
 
-- [**Ссылка на проект на Github-pages.**](https://emilniftiev.github.io/mesto/)
+- [**Ссылка на проект на Github-pages.**](https://emilniftiev.github.io/mesto-react/)
 - [**Ссылка на макет в Figma.**](https://www.figma.com/file/kRVLKwYG3d1HGLvh7JFWRT/JavaScript.-Sprint-6?node-id=0%3A1)
 - [**Ссылка на репозиторий с проектной работой «Mesto» до портирования на React.js.**](https://github.com/EmilNiftiev/mesto/)
 

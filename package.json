@@ -39,7 +39,6 @@
     ]
   },
   "devDependencies": {
-    "@babel/core": "^7.21.4",
     "gh-pages": "^5.0.0"
   }
 }

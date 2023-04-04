@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/EmilNiftiev/mesto-react/static/css/main.e9026ee8.css",
-    "main.js": "/EmilNiftiev/mesto-react/static/js/main.f413d2af.js",
+    "main.js": "/EmilNiftiev/mesto-react/static/js/main.ed3750e3.js",
     "static/js/787.5530211c.chunk.js": "/EmilNiftiev/mesto-react/static/js/787.5530211c.chunk.js",
     "static/media/Inter-Medium.woff": "/EmilNiftiev/mesto-react/static/media/Inter-Medium.9053572c46aeb4b16caa.woff",
     "static/media/Inter-Black.woff": "/EmilNiftiev/mesto-react/static/media/Inter-Black.c6938660eec019fefd68.woff",
@@ -19,11 +19,11 @@
     "static/media/pop-up-close-icon.svg": "/EmilNiftiev/mesto-react/static/media/pop-up-close-icon.039f1f5203f653b4bacd.svg",
     "static/media/profile-add-button.svg": "/EmilNiftiev/mesto-react/static/media/profile-add-button.bed8c136e13907f5eefb.svg",
     "main.e9026ee8.css.map": "/EmilNiftiev/mesto-react/static/css/main.e9026ee8.css.map",
-    "main.f413d2af.js.map": "/EmilNiftiev/mesto-react/static/js/main.f413d2af.js.map",
+    "main.ed3750e3.js.map": "/EmilNiftiev/mesto-react/static/js/main.ed3750e3.js.map",
     "787.5530211c.chunk.js.map": "/EmilNiftiev/mesto-react/static/js/787.5530211c.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.e9026ee8.css",
-    "static/js/main.f413d2af.js"
+    "static/js/main.ed3750e3.js"
   ]
 }

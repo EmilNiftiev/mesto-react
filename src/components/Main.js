@@ -26,7 +26,7 @@ function Main(props) {
   return (
     <main className="content">
       <section className="profile">
-        <a href="#" className="profile__cover" onClick={onEditAvatar}>
+        <a href="#top" target="_self" className="profile__cover" onClick={onEditAvatar}>
           <img src={userAvatar} alt="Аватар профиля" className="profile__avatar" />
         </a>
         <div className="profile__info">

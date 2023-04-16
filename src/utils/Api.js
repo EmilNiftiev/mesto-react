@@ -31,26 +31,26 @@ class Api {
 
   // Отправка информации о пользователе
 
-  setUserInfo(name, job) {
-    return fetch(this._serverUrl + "/users/me", {
+  setUserInfo({ name, about }) {
+    return fetch(`${this._serverUrl}/users/me`, {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({
-        name: name,
-        about: job,
+        name,
+        about,
       }),
     }).then(this._getResponseData);
   }
 
   // Создание карточки
 
-  createUserInfo(name, link) {
-    return fetch(this._serverUrl + "/cards", {
+  createNewCard({ name, link }) {
+    return fetch(`${this._serverUrl}/cards`, {
       method: "POST",
       headers: this._headers,
       body: JSON.stringify({
-        name: name,
-        link: link,
+        name,
+        link,
       }),
     }).then(this._getResponseData);
   }
@@ -58,38 +58,36 @@ class Api {
   // Удаление карточки
 
   deleteCard(id) {
-    return fetch(this._serverUrl + "/cards/" + id, {
+    return fetch(`${this._serverUrl}/cards/${id}`, {
       method: "DELETE",
       headers: this._headers,
     }).then(this._getResponseData);
   }
 
-  // Поставить лайк
+  // Поставить/убрать лайк
 
-  setCardLike(id) {
-    return fetch(this._serverUrl + "/cards/likes/" + id, {
-      method: "PUT",
-      headers: this._headers,
-    }).then(this._getResponseData);
-  }
-
-  // Убрать лайк
-
-  deleteCardLike(id) {
-    return fetch(this._serverUrl + "/cards/likes/" + id, {
-      method: "DELETE",
-      headers: this._headers,
-    }).then(this._getResponseData);
+  changeLikeCardStatus(id, isLiked) {
+    if (isLiked) {
+      return fetch(`${this._serverUrl}/cards/${id}/likes`, {
+        method: "PUT",
+        headers: this._headers,
+      }).then(this._getResponseData);
+    } else {
+      return fetch(`${this._serverUrl}/cards/${id}/likes`, {
+        method: "DELETE",
+        headers: this._headers,
+      }).then(this._getResponseData);
+    }
   }
 
   // Изменить аватар
 
-  updateAvatar(url) {
-    return fetch(this._serverUrl + "/users/me/avatar", {
+  updateAvatar({ avatar }) {
+    return fetch(`${this._serverUrl}/users/me/avatar`, {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({
-        avatar: url,
+        avatar,
       }),
     }).then(this._getResponseData);
   }

@@ -1,0 +1,17 @@
+.auth__submit {
+  width: 100%;
+  margin: 216px 0 0;
+  padding: 14px 0 14px;
+  font-size: 18px;
+  line-height: 1.2;
+  color: #000;
+  background: #fff;
+  border-radius: 2px;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+.auth__submit:hover {
+  opacity: 0.85;
+}

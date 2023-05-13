@@ -6,7 +6,6 @@
   display: flex;
   border-bottom: 1px solid rgba(84, 84, 84, 0.7);
   box-sizing: border-box;
-  justify-content: space-between;
 }
 
 @media (max-width: 930px) {

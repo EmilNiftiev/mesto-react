@@ -13,8 +13,8 @@ function Login(props) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    // props.onLogin({ email, password });
-    console.log({ email, password });
+    props.onLogin({ email, password });
+    // console.log({ email, password });
   }
 
   return (

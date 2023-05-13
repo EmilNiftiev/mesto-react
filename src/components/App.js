@@ -18,6 +18,7 @@ import Login from "./Login";
 import Register from "./Register";
 import ProtectedRoute from "./ProtectedRoute";
 import InfoTooltip from "./InfoTooltip";
+import * as apiAuth from "../utils/ApiAuth";
 
 function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
@@ -27,7 +28,10 @@ function App() {
   const [currentUser, setCurrentUser] = useState(defaultUser);
   const [cards, setCards] = useState([]);
 
+  const [isInfoTooltipPopup, setIsInfoTooltipPopup] = useState(false);
+
   const [loggedIn, setLoggedIn] = useState(false);
+  const [isSignIn, setIsSignIn] = useState(true);
   const navigate = useNavigate();
 
   function handleEditProfileClick() {
@@ -46,12 +50,32 @@ function App() {
     setSelectedCard(card);
   }
 
+  function openInfoTooltipPopup(isSignIn) {
+    setIsInfoTooltipPopup(true);
+    setIsSignIn(isSignIn);
+  }
+
   function closeAllPopups() {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
     setSelectedCard(null);
+    setIsInfoTooltipPopup(false);
   }
+
+  // useEffect(() => {
+  //   if (loggedIn) {
+  //     Promise.all([api.getUserInfo(), api.getInitialCards()])
+  //       .then(([data, cards]) => {
+  //         setCurrentUser({ ...currentUser, ...data });
+  //         setCards(cards);
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //         openInfoTooltipPopup(false);
+  //       });
+  //   }
+  // }, [loggedIn]);
 
   useEffect(() => {
     api
@@ -61,19 +85,21 @@ function App() {
       })
       .catch((err) => {
         console.log(err);
+        openInfoTooltipPopup(false);
       });
-  }, []);
+  }, [loggedIn]);
 
   useEffect(() => {
     api
       .getUserInfo()
       .then((data) => {
-        setCurrentUser(data);
+        setCurrentUser({ ...currentUser, data });
       })
       .catch((err) => {
         console.log(err);
+        openInfoTooltipPopup(false);
       });
-  }, []);
+  }, [loggedIn]);
 
   function handleCardLike(card) {
     // Снова проверяем, есть ли уже лайк на этой карточке
@@ -88,6 +114,7 @@ function App() {
       })
       .catch((err) => {
         console.log(err);
+        openInfoTooltipPopup(false);
       });
   }
 
@@ -100,6 +127,7 @@ function App() {
       .then(() => closeAllPopups())
       .catch((err) => {
         console.log(err);
+        openInfoTooltipPopup(false);
       });
   }
 
@@ -107,11 +135,12 @@ function App() {
     api
       .setUserInfo(data)
       .then((serverData) => {
-        setCurrentUser(serverData);
+        setCurrentUser({ ...currentUser, ...serverData });
         closeAllPopups();
       })
       .catch((err) => {
         console.log(err + "here?");
+        openInfoTooltipPopup(false);
       });
   }
 
@@ -119,11 +148,12 @@ function App() {
     api
       .updateAvatar(data)
       .then((serverData) => {
-        setCurrentUser(serverData);
+        setCurrentUser({ ...currentUser, ...serverData });
         closeAllPopups();
       })
       .catch((err) => {
         console.log(err);
+        openInfoTooltipPopup(false);
       });
   }
 
@@ -136,18 +166,93 @@ function App() {
       })
       .catch((err) => {
         console.log(err);
+        openInfoTooltipPopup(false);
       });
+  }
+
+  // Регистрация
+
+  function handleRegister(data) {
+    apiAuth
+      .register(data)
+      .then((res) => {
+        if (res && res.data) {
+          openInfoTooltipPopup(true);
+          navigate("/sign-in");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        openInfoTooltipPopup(false);
+      });
+  }
+
+  // Проверить токен
+
+  function checkToken() {
+    const token = localStorage.getItem("jwt");
+    if (token) {
+      apiAuth
+        .checkToken(token)
+        .then((res) => {
+          if (res && res.data) {
+            setLoggedIn(true);
+            setCurrentUser({ ...currentUser, email: res.data.email });
+            navigate("/");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          openInfoTooltipPopup(false);
+        });
+    }
+  }
+  useEffect(() => {
+    checkToken();
+  }, []);
+
+  // Вход в профиль
+
+  function handleLogin(data) {
+    apiAuth
+      .login(data)
+      .then((res) => {
+        if (res && res.token) {
+          setCurrentUser({ ...currentUser, email: data.email });
+          localStorage.setItem("jwt", res.token);
+          checkToken();
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        openInfoTooltipPopup(false);
+      });
+  }
+
+  // Выход из профиля
+
+  function logOut() {
+    setLoggedIn(false);
+    setCurrentUser(defaultUser);
+    localStorage.removeItem("jwt");
   }
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="body">
         <div className="page">
-          <Header loggedIn={loggedIn} />
+          <Header
+            loggedIn={loggedIn}
+            email={currentUser.email}
+            logOut={logOut}
+          />
 
           <Routes>
-            <Route path="/sign-up" element={<Register />} />
-            <Route path="/sign-in" element={<Login />} />
+            <Route
+              path="/sign-up"
+              element={<Register onRegister={handleRegister} />}
+            />
+            <Route path="/sign-in" element={<Login onLogin={handleLogin} />} />
             <Route
               path="/"
               element={
@@ -205,9 +310,9 @@ function App() {
 
           <InfoTooltip
             name="tooltip"
-            // isOpen={isInfoTooltipPopup}
+            isOpen={isInfoTooltipPopup}
             onClose={closeAllPopups}
-            // isSignIn={isSignIn}
+            isSignIn={isSignIn}
           />
 
           {loggedIn && <Footer />}
